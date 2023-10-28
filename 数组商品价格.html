@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>商品选择和价格计算</title>
+</head>
+<body>
+    <h1>商品选择</h1>
+    <div id="productList">
+        <!-- 商品选项将在这里动态生成 -->
+    </div>
+    <h2>总价格: $<span id="totalPrice">0</span></h2>
+
+    <script>
+        var productsData = [
+            { name: "商品1", price: 10 },
+            { name: "商品2", price: 20 },
+            { name: "商品3", price: 30 }
+        ];
+
+        function initializePage() {
+            var productList = document.getElementById("productList");
+            var totalPriceElement = document.getElementById("totalPrice");
+
+            productsData.forEach(function (product) {
+                var label = document.createElement("label");
+                label.innerHTML = `
+                    <input type="checkbox" name="product" value="${product.name}" data-price="${product.price}">
+                    ${product.name} - $${product.price}
+                `;
+                label.addEventListener("change", calculatePrice);
+                productList.appendChild(label);
+            });
+
+            function calculatePrice() {
+                var checkboxes = document.getElementsByName("product");
+                var totalPrice = 0;
+
+                for (var i = 0; i < checkboxes.length; i++) {
+                    if (checkboxes[i].checked) {
+                        totalPrice += parseFloat(checkboxes[i].getAttribute("data-price"));
+                    }
+                }
+
+                totalPriceElement.textContent = totalPrice.toFixed(2); // 以两位小数显示
+            }
+        }
+
+        initializePage(); // 初始化页面
+    </script>
+</body>
+</html>
